@@ -38,8 +38,6 @@ const App = () => {
     countries: []
   })
 
-  
-    
   const [country, setCountry] = useState({
     algeria: [algeria, 'Algeria', 0],
     argentina: [argentina, 'Argentina', 1],
@@ -64,9 +62,6 @@ const App = () => {
     serbia: [serbia, 'Serbia', 20]
   })
   
-
-  
-
   const randomCountry = () =>{
     let countryIndex = []
     let countries = []
@@ -88,37 +83,42 @@ const App = () => {
   }
 
   let randomCountryArr = randomCountry()
+  /*
+  console.log(randomCountryArr[0][2]);
+  console.log(randomCountryArr[1][2]);
+  console.log(randomCountryArr[2][2]);
+  console.log(randomCountryArr[3][2]);
+  */
   
+  useEffect(() => {
+    console.log(clicked.countries);
+    
+  }, [clicked])
   
-
-
   
   function handleClick(countryIndex){
-    console.log(countryIndex);
-      
     
     
-    if(clicked.countries.length < 1 || !clicked.countries.includes(countryIndex)){
+    if(clicked.countries < 1 || !clicked.countries.includes(countryIndex)){
+      setClicked({countries: [...clicked.countries, countryIndex]});
       setScore(prevScore => ({...prevScore, current: prevScore.current + 1}));
-      setClicked({ ...clicked ,countries: [...clicked.countries, countryIndex]}, ()=> {
-        randomCountryArr = randomCountry()
-      });
-      
-      console.log(clicked.countries);
+      randomCountryArr = randomCountry();
       
       
-
     } else if (clicked.countries.includes(countryIndex)){
-      setClicked({...clicked, countries:[]})
-      if(score.current > score.highest){
-        setScore({...score, current: 0, highest: score.current}, ()=>{
-          randomCountryArr = randomCountry()
-        })
-      }
       
+      setClicked(prevClicked => ({...prevClicked, countries:[]}))
+      console.log(clicked.countries)
+      if(score.current > score.highest){
+        setScore(prevScore => ({...prevScore, highest: score.current}))
+      }
+      setScore(prevScore => ({...prevScore, current: 0}))
+      randomCountryArr = randomCountry();
     }
-    
   }
+  
+
+ 
 
   return (
     <div className='container'>
@@ -130,19 +130,19 @@ const App = () => {
       
       <div className='cardContainer'> 
         <div className='card1'>
-          <img src={randomCountryArr[0][0]} alt='' onClick={() =>handleClick(randomCountryArr[0][2])}/>
+          <img src={randomCountryArr[0][0]} alt='' id='country1' onClick={() =>handleClick(randomCountryArr[0][2])}/>
           <div className='countryName'>{randomCountryArr[0][1]}</div>
         </div>
         <div className='card2'>
-          <img src={randomCountryArr[1][0]} alt='' onClick={() =>handleClick(randomCountryArr[1][2])}/>
+          <img src={randomCountryArr[1][0]} alt='' id='country2' onClick={() =>handleClick(randomCountryArr[1][2])}/>
           <div className='countryName'>{randomCountryArr[1][1]}</div>
 
         </div>
         <div className='card3'></div>
-          <img src={randomCountryArr[2][0]} alt='' onClick={() =>handleClick(randomCountryArr[2][2])}/>
+          <img src={randomCountryArr[2][0]} alt='' id='country3' onClick={() =>handleClick(randomCountryArr[2][2])}/>
           <div className='countryName'>{randomCountryArr[2][1]}</div>
         <div className='card4'>
-        <img src={randomCountryArr[3][0]} alt='' onClick={() =>handleClick(randomCountryArr[3][2])}/>
+        <img src={randomCountryArr[3][0]} alt='' id='country4' onClick={() =>handleClick(randomCountryArr[3][2])}/>
           <div className='countryName'>{randomCountryArr[3][1]}</div>
 
         </div>
