@@ -77,7 +77,6 @@ const App = () => {
       }
       countryIndex.push(randomNum)
     }
-    console.log(countryIndex);
     for(let c in country){
       countryIndex.forEach(e => {
         if(country[c][2] == e){
@@ -92,23 +91,33 @@ const App = () => {
   
   
 
- 
+
+  
   function handleClick(countryIndex){
+    console.log(countryIndex);
+      
     
     
     if(clicked.countries.length < 1 || !clicked.countries.includes(countryIndex)){
-      setClicked({ ...clicked ,countries: [...clicked.countries, countryIndex]});
       setScore(prevScore => ({...prevScore, current: prevScore.current + 1}));
-      randomCountryArr = randomCountry()
-      console.log(score);
+      setClicked({ ...clicked ,countries: [...clicked.countries, countryIndex]}, ()=> {
+        randomCountryArr = randomCountry()
+      });
+      
+      console.log(clicked.countries);
+      
+      
 
     } else if (clicked.countries.includes(countryIndex)){
       setClicked({...clicked, countries:[]})
       if(score.current > score.highest){
-        setScore({...score, current: 0, highest: score.current})
+        setScore({...score, current: 0, highest: score.current}, ()=>{
+          randomCountryArr = randomCountry()
+        })
       }
-      randomCountryArr = randomCountry()
+      
     }
+    
   }
 
   return (
